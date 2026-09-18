@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家庭用电洞察</title>
+    <meta name="robots" content="noindex, nofollow">
+    <script src="./chart.umd.js"></script>
+    <style>
+        :root {
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --apple-blue: #007AFF;
+            --apple-cyan: #32ADE6;
+            --apple-green: #34C759;
+            --apple-orange: #FF9500;
+            --border-color: #e5e5ea;
+            --grid-line: #e0e0e0;
+            --disabled-grey: #c7c7cc;
+            --popover-bg: rgba(255, 255, 255, 0.65);
+            --popover-border: rgba(255, 255, 255, 0.55);
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #000000;
+                --card-bg: #1c1c1e;
+                --text-primary: #f5f5f7;
+                --text-secondary: #98989d;
+                --border-color: #38383a;
+                --grid-line: #2c2c2e;
+                --disabled-grey: #48484a;
+                --popover-bg: rgba(30, 30, 38, 0.68);
+                --popover-border: rgba(255, 255, 255, 0.15);
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0; padding: 20px;
+            display: flex; justify-content: center;
+            user-select: none;
+        }
+        .container { width: 100%; max-width: 480px; position: relative; }
+
+        .segmented-control {
+            display: flex; background: var(--border-color);
+            border-radius: 9px; padding: 2px; margin-bottom: 16px;
+        }
+        .segment-btn {
+            flex: 1; text-align: center; padding: 6px; font-size: 13px;
+            font-weight: 500; border-radius: 7px; cursor: pointer;
+            transition: all 0.2s; color: var(--text-primary);
+        }
+        .segment-btn.active { background: var(--card-bg); box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
+
+        .title-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px; padding: 0 4px; position: relative; height: 32px;
+            z-index: 100;
+        }
+        .section-title { font-size: 17px; font-weight: 400; color: var(--text-primary); }
+        .action-btn-box { display: flex; align-items: center; justify-content: flex-end; height: 32px; }
+        .reset-btn {
+            background: none; border: none; color: var(--apple-blue);
+            font-size: 14px; font-weight: 500; cursor: pointer; padding: 0 4px; height: 32px;
+            display: inline-flex; align-items: center;
+        }
+        .calendar-icon-btn {
+            background: none; border: none; color: var(--apple-blue); cursor: pointer;
+            padding: 0 4px; height: 32px; width: 32px;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: transform 0.15s ease;
+        }
+        .calendar-icon-btn:active { transform: scale(0.9); }
+
+        .popover-calendar {
+            position: absolute; top: 40px; right: 0; width: 275px; height: 285px;
+            background: var(--popover-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 18px;
+            border: 1px solid var(--popover-border);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.12);
+            z-index: 9999; padding: 14px 16px 16px 16px; box-sizing: border-box;
+            transform-origin: top right;
+            transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.18s ease;
+            opacity: 0; transform: scale(0.85); pointer-events: none;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .popover-calendar.open { opacity: 1; transform: scale(1); pointer-events: auto; }
+
+        .cal-header-two-rows {
+            display: flex; flex-direction: column; gap: 2px; margin-bottom: 4px;
+        }
+        .cal-nav-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 2px 0;
+        }
+        .cal-row-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .cal-nav-btn {
+            background: none; border: none; color: var(--apple-blue);
+            cursor: pointer; font-size: 16px; font-weight: 600; padding: 2px 10px; border-radius: 6px;
+        }
+        .cal-nav-btn.disabled { color: var(--disabled-grey); cursor: default; pointer-events: none; opacity: 0.3; }
+
+        .cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; }
+
+        .cal-days-grid {
+            flex: 1; display: grid; grid-template-columns: repeat(7, 1fr);
+            align-items: center; justify-items: center; gap: 2px;
+        }
+        .cal-day-cell {
+            font-size: 12px; width: 30px; height: 30px; line-height: 30px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; cursor: pointer; color: var(--text-primary); font-weight: 400;
+        }
+        .cal-day-cell.disabled { color: var(--disabled-grey); cursor: default; pointer-events: none; opacity: 0.3; }
+        .cal-day-cell.has-data { color: var(--text-primary); border: none; }
+        .cal-day-cell.selected { background: var(--apple-blue) !important; color: #ffffff !important; font-weight: 600; }
+
+        .card {
+            background: var(--card-bg); border-radius: 20px; padding: 24px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 16px;
+            position: relative; overflow: hidden; z-index: 1;
+        }
+        .card-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
+        .card-subtitle { font-size: 13px; color: var(--text-secondary); font-weight: 400; }
+        .card-badge-right {
+            font-size: 12px; color: var(--text-secondary); display: flex; align-items: center;
+            background: rgba(120,120,128,0.12); padding: 4px 10px; border-radius: 20px;
+        }
+        .hero-metric { font-size: 34px; font-weight: 400; margin: 4px 0 16px 0; letter-spacing: -0.02em; }
+
+        .chart-viewport {
+            position: relative; height: 170px; width: 100%; overflow: hidden;
+            touch-action: pan-y;
+        }
+        .chart-track {
+            display: flex; width: 300%; height: 100%;
+            transform: translateX(-33.3333%);
+            will-change: transform;
+        }
+        .chart-slide {
+            width: 33.3333%; height: 100%; position: relative; flex-shrink: 0;
+            box-sizing: border-box;
+        }
+        .chart-slide canvas, .sub-chart-box canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .loading-hint {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 13px; color: var(--text-secondary); display: none;
+            z-index: 9999; background: var(--popover-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: 8px 16px; border-radius: 12px; border: 1px solid var(--popover-border);
+            pointer-events: none;
+        }
+
+        .sub-chart-wrapper { margin-top: 16px; border-top: 1px dashed var(--border-color); padding-top: 16px; }
+        .sub-chart-box { position: relative; height: 130px; width: 100%; }
+
+        .chart-html-tooltip {
+            position: absolute;
+            transform: translate(-50%, -115%);
+            pointer-events: none;
+            background: var(--popover-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--popover-border);
+            border-radius: 12px;
+            padding: 8px 12px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+            z-index: 99999;
+            transition: opacity 0.15s ease, left 0.08s ease, top 0.08s ease;
+            white-space: nowrap;
+        }
+
+        .chart-legend-box {
+            display: flex; justify-content: space-around; align-items: center;
+            margin-top: 16px;
+            padding: 14px 0;
+            border-top: 1px solid var(--border-color);
+            font-size: 12px; color: var(--text-secondary);
+        }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+        .legend-dot.day-dot { background: var(--apple-blue); }
+        .legend-dot.night-dot { background: var(--apple-cyan); }
+        .legend-dot.peak-dot { background: var(--apple-orange); }
+
+        .total-consumption-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+        }
+        .total-label { color: var(--text-primary); font-weight: 400; }
+        .total-value { color: var(--text-secondary); font-weight: 400; font-size: 13px; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .sub-card { background: var(--card-bg); border-radius: 16px; padding: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+        .sub-title { font-size: 12px; color: var(--text-secondary); }
+        .sub-value { font-size: 18px; font-weight: 500; margin-top: 6px; }
+        .footer { text-align: center; font-size: 11px; color: var(--text-secondary); margin-top: 24px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .refresh-btn { background: none; border: none; color: var(--apple-blue); cursor: pointer; font-size: 11px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="segmented-control">
+            <div class="segment-btn" onclick="switchTab('monthly')" id="btn-monthly">每月</div>
+            <div class="segment-btn active" onclick="switchTab('weekly')" id="btn-weekly">每周</div>
+            <div class="segment-btn" onclick="switchTab('daily')" id="btn-daily">每天</div>
+        </div>
+
+        <div class="title-bar">
+            <span class="section-title">家庭用电洞察</span>
+            <div class="action-btn-box">
+                <button id="reset-btn" class="reset-btn" style="display: none;" onclick="resetToCurrent()">显示本周</button>
+                <button id="cal-toggle-btn" class="calendar-icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="4" ry="4"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="popoverCal" class="popover-calendar">
+                <div class="cal-header-two-rows">
+                    <div class="cal-nav-row">
+                        <button class="cal-nav-btn" id="year-prev">‹</button>
+                        <span id="cal-year-title" class="cal-row-title">--年</span>
+                        <button class="cal-nav-btn" id="year-next">›</button>
+                    </div>
+                    <div class="cal-nav-row">
+                        <button class="cal-nav-btn" id="month-prev">‹</button>
+                        <span id="cal-month-title" class="cal-row-title">--月</span>
+                        <button class="cal-nav-btn" id="month-next">›</button>
+                    </div>
+                </div>
+
+                <div class="cal-weekdays">
+                    <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+                </div>
+                <div id="cal-days-grid" class="cal-days-grid"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header-row">
+                <div>
+                    <div class="card-subtitle" id="date-label">加载中...</div>
+                    <div class="hero-metric" id="hero-value">-- kWh</div>
+                </div>
+                <div class="card-badge-right">
+                    <span id="badge-text">--</span>
+                </div>
+            </div>
+
+            <div class="chart-viewport" id="chartViewport">
+                <div id="loading-hint" class="loading-hint">加载中...</div>
+                <div class="chart-track" id="chartTrack">
+                    <div class="chart-slide"><canvas id="prevChart"></canvas></div>
+                    <div class="chart-slide"><canvas id="currChart"></canvas></div>
+                    <div class="chart-slide"><canvas id="nextChart"></canvas></div>
+                </div>
+            </div>
+
+            <div id="subChartWrapper" class="sub-chart-wrapper" style="display: none;">
+                <div class="sub-chart-box">
+                    <canvas id="subChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-legend-box">
+                <div class="legend-item"><span class="legend-dot day-dot"></span><span>日间用电</span></div>
+                <div class="legend-item"><span class="legend-dot night-dot"></span><span>夜间用电</span></div>
+                <div class="legend-item"><span class="legend-dot peak-dot"></span><span>峰值外框</span></div>
+            </div>
+
+            <div class="total-consumption-row">
+                <span class="total-label">总用电量</span>
+                <span class="total-value" id="total-val">-- kWh</span>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="sub-card">
+                <div class="sub-title">截止目前余额</div>
+                <div class="sub-value" id="balance-value">-- 元</div>
+            </div>
+            <div class="sub-card">
+                <div class="sub-title">最近充值记录</div>
+                <div class="sub-value" id="recharge-value" style="font-size: 13px; margin-top: 6px;">--</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span id="update-time">更新于：--</span>
+            <span>•</span>
+            <button class="refresh-btn" onclick="loadData()">刷新</button>
+        </div>
+    </div>
+
+    <script>
+        let prevChartObj = null, currChartObj = null, nextChartObj = null, subChartObj = null;
+        let currentTab = 'weekly', selectedIndex = null, periodIdx = 0;
+
+        let nowObj = new Date();
+        let calYear = nowObj.getFullYear(), calMonth = nowObj.getMonth();
+        let globalDataRange = { startDate: null, endDate: null };
+
+        // ========== 新增：懒加载状态与日期工具 ==========
+        let isLoading = false;
+        let dailyDateKeys = [];  // daily 视图专用日期键（yyyyMMdd），平行于 db.daily
+
+        const db = {
+            monthly: [{ name: '加载中...', dailyAvg: 0, compareBase: null, hasBaseline: false, weeks: [] }],
+            weekly: [{ rangeText: '加载中...', dailyAvg: 0, compareBase: null, hasBaseline: false, day: Array(7).fill(0), night: Array(7).fill(0), dates: Array(7).fill('') }],
+            daily: [{ dateText: '加载中...', total: 0, compareBase: null, hasBaseline: false, profile: { day: Array(24).fill(0), night: Array(24).fill(0) } }]
+        };
+
+        // ========== 日期工具函数 ==========
+        function addDaysToDateStr(dateStr, days) {
+            const d = new Date(dateStr + 'T00:00:00Z');
+            d.setUTCDate(d.getUTCDate() + days);
+            return d.toISOString().substring(0, 10);
+        }
+
+        function dateStrToKey(dateStr) {
+            return dateStr.replace(/-/g, '');
+        }
+
+        function keyToDateStr(key) {
+            return key.substring(0, 4) + '-' + key.substring(4, 6) + '-' + key.substring(6, 8);
+        }
+
+        // ========== Chart.js 插件与渲染（原封不动） ==========
+
+        function customTooltipHandler(context) {
+            const { chart, tooltip } = context;
+            let tooltipEl = document.getElementById('global-chart-tooltip');
+
+            if (!tooltipEl) {
+                tooltipEl = document.createElement('div');
+                tooltipEl.id = 'global-chart-tooltip';
+                tooltipEl.className = 'chart-html-tooltip';
+                document.body.appendChild(tooltipEl);
+            }
+
+            if (tooltip.opacity === 0) {
+                tooltipEl.style.opacity = '0';
+                return;
+            }
+
+            if (tooltip.body) {
+                const titleLines = tooltip.title || [];
+                let innerHtml = '';
+
+                titleLines.forEach(title => {
+                    innerHtml += `<div style="font-weight: 600; margin-bottom: 4px; font-size: 12px; color: var(--text-primary);">${title}</div>`;
+                });
+
+                tooltip.dataPoints.forEach(dp => {
+                    const color = dp.dataset.backgroundColor;
+                    const label = dp.dataset.label;
+                    const value = dp.parsed.y.toFixed(2);
+                    innerHtml += `
+                        <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-primary); margin-top: 2px;">
+                            <span style="width: 7px; height: 7px; border-radius: 50%; background: ${color}; display: inline-block; flex-shrink: 0;"></span>
+                            <span>${label}: ${value} kWh</span>
+                        </div>
+                    `;
+                });
+
+                tooltipEl.innerHTML = innerHtml;
+            }
+
+            const position = chart.canvas.getBoundingClientRect();
+            tooltipEl.style.opacity = '1';
+            tooltipEl.style.left = (position.left + window.scrollX + tooltip.caretX) + 'px';
+            tooltipEl.style.top = (position.top + window.scrollY + tooltip.caretY - 6) + 'px';
+        }
+
+        const appleFramePlugin = {
+            id: 'appleFrame',
+            beforeDraw(chart, args, options) {
+                if (!chart || !chart.chartArea) return;
+                const { top, bottom, left, right } = chart.chartArea;
+                const ctx = chart.ctx;
+                ctx.save();
+
+                const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--grid-line') || '#38383a';
+
+                ctx.strokeStyle = gridColor; ctx.lineWidth = 1; ctx.beginPath();
+                ctx.moveTo(left, top); ctx.lineTo(right, top); ctx.stroke();
+
+                ctx.setLineDash([2, 2]);
+                const divs = (options && options.divisions) ? options.divisions : 4;
+                const w = right - left;
+                for (let i = 0; i <= divs; i++) {
+                    const x = left + (w / divs) * i;
+                    ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bottom + 18); ctx.stroke();
+                }
+
+                const yAxis = chart.scales && chart.scales.y;
+                if (yAxis && yAxis.ticks) {
+                    yAxis.ticks.forEach(t => {
+                        const val = typeof t === 'object' ? t.value : t;
+                        const y = yAxis.getPixelForValue(val);
+                        if (y > top + 1 && y < bottom - 1) {
+                            ctx.beginPath(); ctx.setLineDash([]); ctx.strokeStyle = 'rgba(200,200,200,0.12)';
+                            ctx.moveTo(left, y); ctx.lineTo(right, y); ctx.stroke();
+                        }
+                    });
+                }
+                ctx.restore();
+            }
+        };
+
+        const appleBaselinePlugin = {
+            id: 'appleBaseline',
+            afterDraw(chart, args, options) {
+                if (!chart || !chart.chartArea || !options || !options.value) return;
+                const { top, bottom, left, right } = chart.chartArea;
+                const yAxis = chart.scales && chart.scales.y;
+                if (!yAxis) return;
+
+                const yPos = yAxis.getPixelForValue(options.value);
+                if (yPos >= top && yPos <= bottom) {
+                    const ctx = chart.ctx;
+                    ctx.save(); ctx.beginPath(); ctx.lineWidth = 1.2;
+                    ctx.strokeStyle = options.isGrey ? '#8e8e93' : '#34C759';
+                    ctx.setLineDash([4, 4]); ctx.moveTo(left, yPos); ctx.lineTo(right, yPos); ctx.stroke();
+                    ctx.fillStyle = options.isGrey ? '#8e8e93' : '#34C759';
+                    ctx.font = '10px -apple-system, sans-serif'; ctx.textAlign = 'right';
+                    ctx.fillText('平均', right - 4, yPos - 4); ctx.restore();
+                }
+            }
+        };
+
+        // ========== 环比胶囊（4参数版，保留原设计） ==========
+
+        function formatBadge(curr, base, name, hasBaseline) {
+            if (!hasBaseline || base === null || base === undefined || base <= 0) {
+                return `<span>与${name}比 --</span>`;
+            }
+            const diff = curr - base;
+            const pct = Math.round((Math.abs(diff) / base) * 100);
+            return `<span>${diff >= 0 ? '↑' : '↓'} 与${name}比浮动 ${pct}%</span>`;
+        }
+
+        function switchTab(mode) {
+            currentTab = mode; selectedIndex = null; periodIdx = 0;
+            document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
+            if(mode === 'monthly') document.getElementById('btn-monthly').classList.add('active');
+            if(mode === 'weekly') document.getElementById('btn-weekly').classList.add('active');
+            if(mode === 'daily') document.getElementById('btn-daily').classList.add('active');
+            loadData();
+        }
+
+        function resetToCurrent() { periodIdx = 0; selectedIndex = null; loadData(); }
+
+        // 深翻页/下钻回退到 Worker API；首屏数据来自同源 data.json 镜像
+        const API_BASE = 'https://electricity-monitor.elec-w2595191159.workers.dev';
+
+        // ========== 首次加载（保留原有逻辑 + 初始化 dailyDateKeys） ==========
+
+        let loadDataSeq = 0;
+        let isInitialLoading = false;
+
+        async function loadData() {
+            const currentSeq = ++loadDataSeq;
+            isInitialLoading = true;
+            try {
+                const res = await fetch('data.json?t=' + Date.now());
+                const result = await res.json();
+                if (currentSeq !== loadDataSeq) return;
+                if (result.success) {
+                    document.getElementById('update-time').innerText = '更新于：' + result.updateTime;
+                    document.getElementById('balance-value').innerText = result.currentBalance.toFixed(2) + ' 元';
+                    document.getElementById('recharge-value').innerText = result.latestRecharge;
+
+                    if (result.dataRange) globalDataRange = result.dataRange;
+                    if (result.daily && result.daily.length) db.daily = result.daily;
+                    if (result.weekly && result.weekly.length) db.weekly = result.weekly;
+                    if (result.monthly && result.monthly.length) db.monthly = result.monthly;
+
+                    // 初始化 dailyDateKeys：后端返回 [今天, 昨天]
+                    const bjDateStr = result.updateTime.substring(0, 10);
+                    dailyDateKeys = [
+                        dateStrToKey(bjDateStr),
+                        dateStrToKey(addDaysToDateStr(bjDateStr, -1))
+                    ];
+                }
+            } catch (e) {
+                console.error('加载真实数据失败:', e);
+            }
+            isInitialLoading = false;
+            renderView();
+        }
+
+        // ========== 新增：懒加载核心函数 ==========
+
+        function getAnchorForLazyLoad(mode, direction) {
+            const list = db[mode];
+            if (!list || list.length === 0) return null;
+
+            if (mode === 'daily') {
+                if (direction === 'older') return dailyDateKeys[dailyDateKeys.length - 1];
+                else return dailyDateKeys[0];
+            } else if (mode === 'weekly') {
+                if (direction === 'older') {
+                    const oldest = list[list.length - 1];
+                    return oldest.dates[0] ? oldest.dates[0].replace(/-/g, '') : null;
+                } else {
+                    return list[0].dates[0] ? list[0].dates[0].replace(/-/g, '') : null;
+                }
+            } else if (mode === 'monthly') {
+                const findFirstDate = (item) => {
+                    if (!item || !item.weeks) return null;
+                    for (const w of item.weeks) {
+                        for (const d of w.dates) {
+                            if (d) return d.replace(/-/g, '');
+                        }
+                    }
+                    return null;
+                };
+                if (direction === 'older') return findFirstDate(list[list.length - 1]);
+                else return findFirstDate(list[0]);
+            }
+            return null;
+        }
+
+        function showLoadingHint(show) {
+            const el = document.getElementById('loading-hint');
+            if (el) el.style.display = show ? 'block' : 'none';
+        }
+
+        async function lazyLoadData(mode, anchor, direction) {
+            if (isLoading) return;
+            isLoading = true;
+            showLoadingHint(true);
+
+            try {
+                const url = API_BASE + `/dashboard?mode=${mode}&anchor=${anchor}&direction=${direction}`;
+                const res = await fetch(url, { signal: (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(15000) : undefined });
+                const result = await res.json();
+
+                if (result.success && result[mode] && result[mode].length) {
+                    const newItems = result[mode];
+
+                    if (direction === 'older') {
+                        // 追加到数组末尾（更早的数据）
+                        db[mode] = [...db[mode], ...newItems];
+                        // 更新 dailyDateKeys
+                        if (mode === 'daily') {
+                            const anchorDateStr = keyToDateStr(anchor);
+                            const newKeys = [];
+                            for (let i = newItems.length; i >= 1; i--) {
+                                newKeys.push(dateStrToKey(addDaysToDateStr(anchorDateStr, -i)));
+                            }
+                            dailyDateKeys = [...dailyDateKeys, ...newKeys];
+                        }
+                    } else if (direction === 'newer') {
+                        // 插入到数组头部（更新的数据），periodIdx 后移
+                        db[mode] = [...newItems, ...db[mode]];
+                        periodIdx += newItems.length;
+                        if (mode === 'daily') {
+                            const anchorDateStr = keyToDateStr(anchor);
+                            const newKeys = [];
+                            for (let i = 1; i <= newItems.length; i++) {
+                                newKeys.push(dateStrToKey(addDaysToDateStr(anchorDateStr, i)));
+                            }
+                            dailyDateKeys = [...newKeys, ...dailyDateKeys];
+                        }
+                    } else if (direction === 'jump') {
+                        // 替换整个数组（日历跳转）
+                        db[mode] = newItems;
+                        periodIdx = Math.max(0, Math.min(1, newItems.length - 1));
+                        selectedIndex = null;
+                        if (mode === 'daily') {
+                            const anchorDateStr = keyToDateStr(anchor);
+                            dailyDateKeys = [];
+                            for (let i = 0; i < newItems.length; i++) {
+                                dailyDateKeys.push(dateStrToKey(addDaysToDateStr(anchorDateStr, i - 1)));
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('懒加载失败:', e);
+            } finally {
+                isLoading = false;
+                showLoadingHint(false);
+                renderView();
+            }
+        }
+
+        // ========== 新增：周视图下钻异步加载24小时剖面 ==========
+
+        async function loadDailyDetailForSubChart(dateStr) {
+            const anchor = dateStr.replace(/-/g, '');
+            try {
+                const url = API_BASE + `/dashboard?mode=daily&anchor=${anchor}&direction=jump`;
+                const res = await fetch(url, { signal: (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(15000) : undefined });
+                const result = await res.json();
+                if (result.success && result.daily && result.daily.length >= 2) {
+                    // jump 返回 [anchor-1, anchor, anchor+1]，中间项(index=1)为目标日期
+                    const targetItem = result.daily[1];
+                    if (targetItem && targetItem.profile) {
+                        // 确保用户仍停留在同一个选中项
+                        const currData = getDataByOffset(0);
+                        if (currData && currData.dates && currData.dates[selectedIndex] === dateStr) {
+                            renderSubChart(24, targetItem.profile.day, targetItem.profile.night, null, dateStr);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('加载日详情失败:', e);
+            }
+        }
+
+        function getDataByOffset(offset) {
+            const list = db[currentTab];
+            const idx = periodIdx + offset;
+            return (idx >= 0 && idx < list.length) ? list[idx] : null;
+        }
+
+        // ========== 渲染主函数（保留原设计，仅修改周视图下钻） ==========
+
+        function renderView() {
+            const existingTooltip = document.getElementById('global-chart-tooltip');
+            if (existingTooltip) existingTooltip.style.opacity = '0';
+
+            if (prevChartObj) prevChartObj.destroy();
+            if (currChartObj) currChartObj.destroy();
+            if (nextChartObj) nextChartObj.destroy();
+            if (subChartObj) subChartObj.destroy();
+
+            const subWrapper = document.getElementById('subChartWrapper');
+            const resetBtn = document.getElementById('reset-btn');
+            const calToggleBtn = document.getElementById('cal-toggle-btn');
+
+            if (periodIdx !== 0 || selectedIndex !== null) {
+                resetBtn.style.display = 'inline-flex'; calToggleBtn.style.display = 'none';
+                resetBtn.innerText = currentTab === 'daily' ? '显示今天' : (currentTab === 'weekly' ? '显示本周' : '显示本月');
+            } else {
+                resetBtn.style.display = 'none'; calToggleBtn.style.display = 'inline-flex';
+            }
+
+            const currData = getDataByOffset(0);
+            const prevData = getDataByOffset(-1);
+            const nextData = getDataByOffset(1);
+
+            if (!currData) return;
+
+            if (currentTab === 'daily') {
+                subWrapper.style.display = 'none';
+                document.getElementById('date-label').innerText = currData.dateText;
+                document.getElementById('hero-value').innerText = currData.total.toFixed(2) + ' kWh';
+                document.getElementById('total-val').innerText = currData.total.toFixed(2) + ' kWh';
+                document.getElementById('badge-text').innerHTML = formatBadge(currData.total, currData.compareBase, '昨天', currData.hasBaseline);
+
+                prevChartObj = renderSingleChart('prevChart', ['0:00','6:00','12:00','18:00'], prevData ? prevData.profile.day : [], prevData ? prevData.profile.night : [], prevData ? prevData.total/24 : 0, 4, false);
+                currChartObj = renderSingleChart('currChart', ['0:00','6:00','12:00','18:00'], currData.profile.day, currData.profile.night, currData.total/24, 4, true);
+                nextChartObj = renderSingleChart('nextChart', ['0:00','6:00','12:00','18:00'], nextData ? nextData.profile.day : [], nextData ? nextData.profile.night : [], nextData ? nextData.total/24 : 0, 4, false);
+
+            } else if (currentTab === 'weekly') {
+                document.getElementById('date-label').innerText = currData.rangeText;
+                document.getElementById('hero-value').innerText = currData.dailyAvg.toFixed(2) + ' kWh';
+
+                const wTotal = currData.day.reduce((a,b)=>a+b, 0) + currData.night.reduce((a,b)=>a+b, 0);
+                document.getElementById('total-val').innerText = wTotal.toFixed(2) + ' kWh';
+                document.getElementById('badge-text').innerHTML = formatBadge(wTotal, currData.compareBase, '上周', currData.hasBaseline);
+
+                prevChartObj = renderSingleChart('prevChart', ['日','一','二','三','四','五','六'], prevData ? prevData.day : [], prevData ? prevData.night : [], prevData ? prevData.dailyAvg : 0, 7, false);
+                currChartObj = renderSingleChart('currChart', ['日','一','二','三','四','五','六'], currData.day, currData.night, currData.dailyAvg, 7, true);
+                nextChartObj = renderSingleChart('nextChart', ['日','一','二','三','四','五','六'], nextData ? nextData.day : [], nextData ? nextData.night : [], nextData ? nextData.dailyAvg : 0, 7, false);
+
+                if (selectedIndex !== null) {
+                    subWrapper.style.display = 'block';
+                    // 修复：先渲染空图表占位，再异步加载该天24小时剖面
+                    renderSubChart(24, Array(24).fill(0), Array(24).fill(0), null, currData.dates[selectedIndex]);
+                    if (currData.day[selectedIndex] > 0 || currData.night[selectedIndex] > 0) {
+                        loadDailyDetailForSubChart(currData.dates[selectedIndex]);
+                    }
+                } else { subWrapper.style.display = 'none'; }
+            } else {
+                document.getElementById('date-label').innerText = currData.name;
+                document.getElementById('hero-value').innerText = currData.dailyAvg.toFixed(2) + ' kWh';
+
+                const getMData = (m) => {
+                    if (!m || !m.weeks) return { d: [], n: [], avg: 0, total: 0 };
+                    const d = m.weeks.map(w => (w.day || []).reduce((a, b) => a + b, 0));
+                    const n = m.weeks.map(w => (w.night || []).reduce((a, b) => a + b, 0));
+                    const total = d.reduce((a,b)=>a+b, 0) + n.reduce((a,b)=>a+b, 0);
+                    return { d, n, avg: m.dailyAvg, total };
+                };
+
+                const p = getMData(prevData), c = getMData(currData), n = getMData(nextData);
+                document.getElementById('total-val').innerText = c.total.toFixed(2) + ' kWh';
+                document.getElementById('badge-text').innerHTML = formatBadge(c.total, currData.compareBase, '上月', currData.hasBaseline);
+
+                const monthLabelPool = ['一','二','三','四','五','六'];
+                const pLabels = monthLabelPool.slice(0, p.d.length);
+                const cLabels = monthLabelPool.slice(0, c.d.length);
+                const nLabels = monthLabelPool.slice(0, n.d.length);
+
+                prevChartObj = renderSingleChart('prevChart', pLabels, p.d, p.n, p.avg, p.d.length, false);
+                currChartObj = renderSingleChart('currChart', cLabels, c.d, c.n, c.avg, c.d.length, true);
+                nextChartObj = renderSingleChart('nextChart', nLabels, n.d, n.n, n.avg, n.d.length, false);
+
+                if (selectedIndex !== null && currData.weeks[selectedIndex]) {
+                    subWrapper.style.display = 'block';
+                    const wObj = currData.weeks[selectedIndex];
+                    renderSubChart(7, wObj.day, wObj.night, ['日','一','二','三','四','五','六'], wObj.dates);
+                } else { subWrapper.style.display = 'none'; }
+            }
+        }
+
+        // ========== 图表渲染函数（圆角 3px → 4px 对齐 v3.1 规范） ==========
+
+        function renderSingleChart(canvasId, tickLabels, dayArray, nightArray, exactAvg, gridDivisions, isMain) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            const totalSlots = dayArray.length || gridDivisions;
+            const dData = dayArray.length ? dayArray : Array(totalSlots).fill(0);
+            const nData = nightArray.length ? nightArray : Array(totalSlots).fill(0);
+            const totalArray = dData.map((d, i) => d + nData[i]);
+
+            const maxVal = totalArray.length > 0 ? Math.max(...totalArray) : 0;
+            const peakIndex = maxVal > 0 ? totalArray.indexOf(maxVal) : -1;
+
+            const dayBorderColors = totalArray.map((_, i) => i === peakIndex ? '#FF9500' : 'transparent');
+            const dayBorderWidths = totalArray.map((_, i) => i === peakIndex ? 1.5 : 0);
+            const nightBorderColors = totalArray.map((_, i) => i === peakIndex ? '#FF9500' : 'transparent');
+            const nightBorderWidths = totalArray.map((_, i) => i === peakIndex ? 1.5 : 0);
+
+            let datasets = [];
+            if (!isMain || selectedIndex === null) {
+                datasets = [
+                    {
+                        label: '日间用电', data: dData, backgroundColor: '#007AFF',
+                        borderColor: dayBorderColors, borderWidth: dayBorderWidths,
+                        borderSkipped: (c) => (nData[c.dataIndex] > 0 ? 'top' : false),
+                        categoryPercentage: 1.0, barPercentage: 0.5,
+                        borderRadius: (c) => nData[c.dataIndex] > 0 ? 0 : { topLeft: 4, topRight: 4 }
+                    },
+                    {
+                        label: '夜间用电', data: nData, backgroundColor: '#32ADE6',
+                        borderColor: nightBorderColors, borderWidth: nightBorderWidths,
+                        borderSkipped: 'bottom',
+                        categoryPercentage: 1.0, barPercentage: 0.5,
+                        borderRadius: { topLeft: 4, topRight: 4 }
+                    }
+                ];
+            } else {
+                datasets = [
+                    { label: '未选中灰柱', data: totalArray.map((v, i) => i === selectedIndex ? 0 : v), backgroundColor: '#c7c7cc', borderRadius: { topLeft: 4, topRight: 4 }, categoryPercentage: 1.0, barPercentage: 0.5 },
+                    {
+                        label: '日间用电', data: dData.map((v, i) => i === selectedIndex ? v : 0), backgroundColor: '#007AFF',
+                        borderColor: dayBorderColors, borderWidth: dayBorderWidths,
+                        borderSkipped: (c) => (nData[c.dataIndex] > 0 ? 'top' : false),
+                        categoryPercentage: 1.0, barPercentage: 0.5,
+                        borderRadius: (c) => nData[c.dataIndex] > 0 ? 0 : { topLeft: 4, topRight: 4 }
+                    },
+                    {
+                        label: '夜间用电', data: nData.map((v, i) => i === selectedIndex ? v : 0), backgroundColor: '#32ADE6',
+                        borderColor: nightBorderColors, borderWidth: nightBorderWidths,
+                        borderSkipped: 'bottom',
+                        categoryPercentage: 1.0, barPercentage: 0.5,
+                        borderRadius: { topLeft: 4, topRight: 4 }
+                    }
+                ];
+            }
+
+            return new Chart(ctx, {
+                type: 'bar',
+                data: { labels: totalSlots === 24 ? Array.from({length: 24}, (_, i) => `${i}:00`) : tickLabels, datasets },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    onHover: (event, chartElement) => {
+                        const target = event.native ? event.native.target : (event.event ? event.event.target : null);
+                        if (target) {
+                            if (isMain && chartElement && chartElement.length > 0 && currentTab !== 'daily') {
+                                target.style.cursor = 'pointer';
+                            } else {
+                                target.style.cursor = 'grab';
+                            }
+                        }
+                    },
+                    onClick: (e, elements) => {
+                        if (hasSwiped) return;
+                        if (isMain && elements.length > 0 && currentTab !== 'daily') {
+                            const idx = elements[0].index;
+                            selectedIndex = (selectedIndex === idx) ? null : idx;
+                            renderView();
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            enabled: false,
+                            external: isMain ? customTooltipHandler : null,
+                            filter: (item) => item.parsed.y > 0,
+                            callbacks: {
+                                title: (items) => {
+                                    const idx = items[0].dataIndex;
+                                    const dataObj = getDataByOffset(0);
+                                    if (currentTab === 'daily') return `${idx}:00至${idx + 1 === 24 ? '24:00' : idx + 1 + ':00'}`;
+                                    if (currentTab === 'weekly') return `${dataObj.dates[idx]} 星期${['日','一','二','三','四','五','六'][idx]}`;
+                                    return dataObj.weeks[idx] ? dataObj.weeks[idx].rangeText : '';
+                                }
+                            }
+                        },
+                        appleFrame: { divisions: gridDivisions },
+                        appleBaseline: { value: exactAvg, isGrey: selectedIndex !== null }
+                    },
+                    scales: {
+                        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 }, color: '#86868b', maxRotation: 0, align: totalSlots === 24 ? 'start' : 'center', callback: function(v, i) { return totalSlots === 24 ? ([0,6,12,18].includes(i) ? tickLabels[[0,6,12,18].indexOf(i)] : '') : this.getLabelForValue(v); } } },
+                        y: { stacked: true, position: 'right', grid: { display: false }, ticks: { font: { size: 10 }, color: '#86868b' } }
+                    }
+                },
+                plugins: [appleFramePlugin, appleBaselinePlugin]
+            });
+        }
+
+        function renderSubChart(slots, subDay, subNight, customLabels, datesArray) {
+            if (subChartObj) { subChartObj.destroy(); subChartObj = null; }
+            const ctx = document.getElementById('subChart').getContext('2d');
+
+            const subTotalArray = subDay.map((d, i) => d + subNight[i]);
+            const subMaxVal = subTotalArray.length > 0 ? Math.max(...subTotalArray) : 0;
+            const subPeakIndex = subMaxVal > 0 ? subTotalArray.indexOf(subMaxVal) : -1;
+
+            const subDayBorderColors = subTotalArray.map((_, i) => i === subPeakIndex ? '#FF9500' : 'transparent');
+            const subDayBorderWidths = subTotalArray.map((_, i) => i === subPeakIndex ? 1.5 : 0);
+            const subNightBorderColors = subTotalArray.map((_, i) => i === subPeakIndex ? '#FF9500' : 'transparent');
+            const subNightBorderWidths = subTotalArray.map((_, i) => i === subPeakIndex ? 1.5 : 0);
+
+            subChartObj = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: slots === 24 ? Array.from({length: 24}, (_, i) => `${i}:00`) : customLabels,
+                    datasets: [
+                        {
+                            label: '日间用电', data: subDay, backgroundColor: '#007AFF',
+                            borderColor: subDayBorderColors, borderWidth: subDayBorderWidths,
+                            borderSkipped: (c) => (subNight[c.dataIndex] > 0 ? 'top' : false),
+                            categoryPercentage: 1.0, barPercentage: 0.5,
+                            borderRadius: (c) => subNight[c.dataIndex] > 0 ? 0 : { topLeft: 4, topRight: 4 }
+                        },
+                        {
+                            label: '夜间用电', data: subNight, backgroundColor: '#32ADE6',
+                            borderColor: subNightBorderColors, borderWidth: subNightBorderWidths,
+                            borderSkipped: 'bottom',
+                            categoryPercentage: 1.0, barPercentage: 0.5,
+                            borderRadius: { topLeft: 4, topRight: 4 }
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            enabled: false,
+                            external: customTooltipHandler,
+                            filter: (item) => item.parsed.y > 0,
+                            callbacks: {
+                                title: (items) => {
+                                    const idx = items[0].dataIndex;
+                                    if (slots === 24) return `${idx}:00至${idx + 1 === 24 ? '24:00' : idx + 1 + ':00'}`;
+                                    return `${datesArray[idx]} 星期${['日','一','二','三','四','五','六'][idx]}`;
+                                }
+                            }
+                        },
+                        appleFrame: { divisions: slots === 24 ? 4 : 7 }
+                    },
+                    scales: {
+                        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 }, color: '#86868b', maxRotation: 0, align: slots === 24 ? 'start' : 'center', callback: function(v, i) { return slots === 24 ? ([0,6,12,18].includes(i) ? ['0:00','6:00','12:00','18:00'][[0,6,12,18].indexOf(i)] : '') : this.getLabelForValue(v); } } },
+                        y: { stacked: true, position: 'right', grid: { display: false }, ticks: { font: { size: 10 }, color: '#86868b' } }
+                    }
+                },
+                plugins: [appleFramePlugin]
+            });
+        }
+
+        // ========== macOS 动态日历（修改 cell.onclick 接入懒加载 jump） ==========
+
+        const calToggleBtn = document.getElementById('cal-toggle-btn');
+        const popoverCal = document.getElementById('popoverCal');
+
+        calToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = popoverCal.classList.contains('open');
+            if (isOpen) {
+                popoverCal.classList.remove('open');
+            } else {
+                popoverCal.classList.add('open');
+                renderCalGrid();
+            }
+        });
+
+        popoverCal.addEventListener('click', (e) => { e.stopPropagation(); });
+
+        document.getElementById('year-prev').addEventListener('click', (e) => {
+            e.stopPropagation(); calYear--; renderCalGrid();
+        });
+        document.getElementById('year-next').addEventListener('click', (e) => {
+            e.stopPropagation(); calYear++; renderCalGrid();
+        });
+
+        document.getElementById('month-prev').addEventListener('click', (e) => {
+            e.stopPropagation();
+            calMonth--;
+            if (calMonth < 0) { calMonth = 11; calYear--; }
+            renderCalGrid();
+        });
+        document.getElementById('month-next').addEventListener('click', (e) => {
+            e.stopPropagation();
+            calMonth++;
+            if (calMonth > 11) { calMonth = 0; calYear++; }
+            renderCalGrid();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (popoverCal.classList.contains('open')) {
+                if (!popoverCal.contains(e.target) && !calToggleBtn.contains(e.target)) {
+                    popoverCal.classList.remove('open');
+                }
+            }
+        });
+
+        function renderCalGrid() {
+            document.getElementById('cal-year-title').innerText = `${calYear}年`;
+            document.getElementById('cal-month-title').innerText = `${calMonth + 1}月`;
+
+            function parseLocalDate(dateStr) {
+                const [y, m, d] = dateStr.split('-').map(Number);
+                return new Date(y, m - 1, d);
+            }
+            const sDate = globalDataRange.startDate ? parseLocalDate(globalDataRange.startDate) : null;
+            const eDate = globalDataRange.endDate ? parseLocalDate(globalDataRange.endDate) : null;
+
+            const grid = document.getElementById('cal-days-grid'); grid.innerHTML = '';
+            const firstDay = new Date(calYear, calMonth, 1).getDay();
+            const totalDays = new Date(calYear, calMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div'); empty.className = 'cal-day-cell disabled'; grid.appendChild(empty);
+            }
+
+            for (let d = 1; d <= totalDays; d++) {
+                const cell = document.createElement('div'); cell.className = 'cal-day-cell'; cell.innerText = d;
+                const currCellDate = new Date(calYear, calMonth, d);
+
+                const isValid = sDate && eDate && currCellDate >= sDate && currCellDate <= eDate;
+
+                if (isValid) {
+                    cell.classList.add('has-data');
+                    if (currCellDate.toDateString() === eDate.toDateString()) cell.classList.add('selected');
+                    // 修复：点击日历直达 → 调用懒加载 jump 模式
+                    cell.onclick = (e) => {
+                        e.stopPropagation();
+                        popoverCal.classList.remove('open');
+                        const cellDateStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                        const anchor = cellDateStr.replace(/-/g, '');
+                        lazyLoadData(currentTab, anchor, 'jump');
+                    };
+                } else { cell.classList.add('disabled'); }
+                grid.appendChild(cell);
+            }
+        }
+
+        // ========== 手势滑动（改造：边界触发懒加载） ==========
+
+        const viewport = document.getElementById('chartViewport');
+        const track = document.getElementById('chartTrack');
+        let startX = 0, currentDx = 0, isPointerDown = false, hasSwiped = false, isAnimating = false;
+
+        function setTrackPos(dx, animate = false) {
+            track.style.transition = animate ? 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
+            const w = viewport.clientWidth;
+            track.style.transform = `translateX(${-w + dx}px)`;
+        }
+
+        viewport.addEventListener('pointerdown', e => {
+            if (isInitialLoading) return;
+            const existingTooltip = document.getElementById('global-chart-tooltip');
+            if (existingTooltip) existingTooltip.style.opacity = '0';
+
+            startX = e.clientX; isPointerDown = true; hasSwiped = false; currentDx = 0;
+            track.style.transition = 'none';
+        });
+
+        window.addEventListener('pointermove', e => {
+            if (!isPointerDown) return;
+            let dx = e.clientX - startX;
+            if (Math.abs(dx) > 6) { hasSwiped = true; }
+
+            // 改造：用动态数组长度判断边界
+            const list = db[currentTab];
+            const isAtOldest = periodIdx === list.length - 1;
+            const isAtNewest = periodIdx === 0;
+
+            if ((isAtOldest && dx < 0) || (isAtNewest && dx > 0)) dx *= 0.22;
+            currentDx = dx; setTrackPos(dx, false);
+        });
+
+        window.addEventListener('pointerup', () => {
+            if (!isPointerDown) return;
+            isPointerDown = false;
+            if (isLoading || isAnimating) { setTrackPos(0, true); return; }
+
+            if (hasSwiped) {
+                const list = db[currentTab];
+                const isAtOldest = periodIdx === list.length - 1;
+                const isAtNewest = periodIdx === 0;
+
+                if (currentDx > 50 && !isAtOldest && !isAnimating) {
+                    // 向右滑（从左向右划）= 查看更早的历史
+                    isAnimating = true;
+                    setTrackPos(viewport.clientWidth, true);
+                    setTimeout(() => { periodIdx++; selectedIndex = null; setTrackPos(0, false); renderView(); isAnimating = false; }, 250);
+                } else if (currentDx > 50 && isAtOldest && !isLoading) {
+                    // 到达最早边界，触发懒加载 older
+                    const anchor = getAnchorForLazyLoad(currentTab, 'older');
+                    if (anchor) {
+                        setTrackPos(0, true);
+                        lazyLoadData(currentTab, anchor, 'older');
+                    } else {
+                        setTrackPos(0, true);
+                    }
+                } else if (currentDx < -50 && !isAtNewest && !isAnimating) {
+                    // 向左滑（从右向左划）= 返回最新周期
+                    isAnimating = true;
+                    setTrackPos(-viewport.clientWidth, true);
+                    setTimeout(() => { periodIdx--; selectedIndex = null; setTrackPos(0, false); renderView(); isAnimating = false; }, 250);
+                } else if (currentDx < -50 && isAtNewest && !isLoading) {
+                    // 到达最新边界，尝试懒加载 newer
+                    const anchor = getAnchorForLazyLoad(currentTab, 'newer');
+                    if (anchor) {
+                        setTrackPos(0, true);
+                        lazyLoadData(currentTab, anchor, 'newer');
+                    } else {
+                        setTrackPos(0, true);
+                    }
+                } else {
+                    setTrackPos(0, true);
+                }
+            } else {
+                setTrackPos(0, false);
+            }
+        });
+
+        loadData();
+    </script>
+</body>
+</html>

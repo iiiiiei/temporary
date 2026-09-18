@@ -1,0 +1,40 @@
+name: mirror
+
+# 每小时 :30 拉取 Cloudflare Worker /dashboard 快照（采集在 :00 已落库），
+# :30 同时避开 GitHub Actions 整点调度高峰。字段白名单过滤后提交 data.json。
+on:
+  schedule:
+    - cron: '30 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mirror
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull and commit dashboard snapshot
+        env:
+          API: ${{ secrets.DASHBOARD_API_URL }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          curl -fsS --max-time 30 "$API" -o /tmp/raw.json
+          jq 'if (.success // false) != true then error("api response not success") else
+              {success, updateTime, currentBalance, latestRecharge, dataRange, daily, weekly, monthly}
+              end' /tmp/raw.json > /tmp/data.json
+          git clone --quiet --depth 1 "https://x-access-token:${TOKEN}@github.com/${REPO}.git" site
+          cp /tmp/data.json site/data.json
+          cd site
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data.json
+          if git diff --cached --quiet; then echo 'snapshot unchanged, skip commit'; exit 0; fi
+          git commit --quiet -m "snapshot: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push --quiet origin main
