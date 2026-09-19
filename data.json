@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-09-20 04:55:59",
-  "currentBalance": 118.68,
+  "updateTime": "2026-09-20 07:25:25",
+  "currentBalance": 118.55,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "9月20日 今天",
-      "total": 1.27,
-      "compareBase": 2.46,
+      "total": 1.4,
+      "compareBase": 2.95,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,8 +20,8 @@
           0,
           0,
           0,
-          0,
-          0,
+          0.04,
+          0.04,
           0,
           0,
           0,
@@ -45,7 +45,7 @@
           0.08,
           0.04,
           0.04,
-          0,
+          0.05,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "9月19日 昨天",
-      "total": 2.46,
+      "total": 2.95,
       "compareBase": 2.08,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.18,
           0.16,
           0.07,
-          0
+          0.48
         ]
       }
     }
@@ -132,11 +132,11 @@
   "weekly": [
     {
       "rangeText": "9月20日-26日 平均",
-      "dailyAvg": 1.27,
-      "compareBase": 4.54,
+      "dailyAvg": 1.4,
+      "compareBase": 5.03,
       "hasBaseline": true,
       "day": [
-        0,
+        0.08,
         0,
         0,
         0,
@@ -145,7 +145,7 @@
         0
       ],
       "night": [
-        1.27,
+        1.32,
         0,
         0,
         0,
@@ -165,7 +165,7 @@
     },
     {
       "rangeText": "9月13日-19日 平均",
-      "dailyAvg": 2.27,
+      "dailyAvg": 2.52,
       "compareBase": null,
       "hasBaseline": false,
       "day": [
@@ -175,7 +175,7 @@
         0,
         0,
         0,
-        1
+        1.11
       ],
       "night": [
         0,
@@ -184,7 +184,7 @@
         0,
         0,
         2.08,
-        1.46
+        1.84
       ],
       "dates": [
         "2026-09-13",
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "9月 平均",
-      "dailyAvg": 4.36,
+      "dailyAvg": 4.29,
       "compareBase": null,
       "hasBaseline": false,
       "weeks": [
@@ -272,7 +272,7 @@
             0,
             0,
             0,
-            1
+            1.11
           ],
           "night": [
             0,
@@ -281,7 +281,7 @@
             0,
             0,
             2.08,
-            1.46
+            1.84
           ],
           "dates": [
             "2026-09-13",
@@ -296,7 +296,7 @@
         },
         {
           "day": [
-            0,
+            0.08,
             0,
             0,
             0,
@@ -305,7 +305,7 @@
             0
           ],
           "night": [
-            1.27,
+            1.32,
             0,
             0,
             0,
