@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-09-25 05:43:10",
-  "currentBalance": 96.82,
+  "updateTime": "2026-09-25 08:43:29",
+  "currentBalance": 96.68,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "9月25日 今天",
-      "total": 0.98,
-      "compareBase": 2.98,
+      "total": 1.12,
+      "compareBase": 4.21,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,9 +20,9 @@
           0,
           0,
           0,
-          0,
-          0,
-          0,
+          0.04,
+          0.06,
+          0.04,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "9月24日 昨天",
-      "total": 2.98,
+      "total": 4.21,
       "compareBase": 3.1,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.16,
           0.03,
           0.53,
-          0
+          1.24
         ]
       }
     }
@@ -132,7 +132,7 @@
   "weekly": [
     {
       "rangeText": "9月20日-26日 平均",
-      "dailyAvg": 3.65,
+      "dailyAvg": 3.87,
       "compareBase": 5.03,
       "hasBaseline": true,
       "day": [
@@ -140,8 +140,8 @@
         0.55,
         1.94,
         0.93,
-        0.87,
-        0,
+        0.88,
+        0.14,
         0
       ],
       "night": [
@@ -149,7 +149,7 @@
         1.62,
         3.33,
         2.17,
-        2.11,
+        3.33,
         0.98,
         0
       ],
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "9月 平均",
-      "dailyAvg": 4.22,
+      "dailyAvg": 4.32,
       "compareBase": null,
       "hasBaseline": false,
       "weeks": [
@@ -300,8 +300,8 @@
             0.55,
             1.94,
             0.93,
-            0.87,
-            0,
+            0.88,
+            0.14,
             0
           ],
           "night": [
@@ -309,7 +309,7 @@
             1.62,
             3.33,
             2.17,
-            2.11,
+            3.33,
             0.98,
             0
           ],
