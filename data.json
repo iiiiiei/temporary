@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-09-30 05:30:52",
-  "currentBalance": 83.7,
+  "updateTime": "2026-09-30 09:27:53",
+  "currentBalance": 83.54,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "9月30日 今天",
-      "total": 0.32,
-      "compareBase": 1.49,
+      "total": 0.48,
+      "compareBase": 1.55,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,10 +20,10 @@
           0,
           0,
           0,
-          0,
-          0,
-          0,
-          0,
+          0.03,
+          0.05,
+          0.04,
+          0.04,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "9月29日 昨天",
-      "total": 1.49,
+      "total": 1.55,
       "compareBase": 5.33,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.08,
           0.08,
           0.08,
-          0
+          0.05
         ]
       }
     }
@@ -132,14 +132,14 @@
   "weekly": [
     {
       "rangeText": "9月27日-10月3日 平均",
-      "dailyAvg": 2.77,
+      "dailyAvg": 2.83,
       "compareBase": 25.11,
       "hasBaseline": true,
       "day": [
         0.53,
         1.95,
-        0.66,
-        0,
+        0.65,
+        0.16,
         0,
         0,
         0
@@ -147,7 +147,7 @@
       "night": [
         3.42,
         3.38,
-        0.83,
+        0.9,
         0.32,
         0,
         0,
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "9月 平均",
-      "dailyAvg": 3.62,
+      "dailyAvg": 3.58,
       "compareBase": null,
       "hasBaseline": false,
       "weeks": [
@@ -328,8 +328,8 @@
           "day": [
             0.53,
             1.95,
-            0.66,
-            0,
+            0.65,
+            0.16,
             0,
             0,
             0
@@ -337,7 +337,7 @@
           "night": [
             3.42,
             3.38,
-            0.83,
+            0.9,
             0.32,
             0,
             0,
