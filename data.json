@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-01 03:35:04",
-  "currentBalance": 79.44,
+  "updateTime": "2026-10-01 08:06:45",
+  "currentBalance": 79.23,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "10月1日 今天",
-      "total": 0.17,
-      "compareBase": 4.27,
+      "total": 0.38,
+      "compareBase": 4.41,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,9 +20,9 @@
           0,
           0,
           0,
-          0,
-          0,
-          0,
+          0.04,
+          0.03,
+          0.06,
           0,
           0,
           0,
@@ -44,8 +44,8 @@
           0.06,
           0.06,
           0.05,
-          0,
-          0,
+          0.03,
+          0.05,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "9月30日 昨天",
-      "total": 4.27,
+      "total": 4.41,
       "compareBase": 1.55,
       "hasBaseline": true,
       "profile": {
@@ -132,15 +132,15 @@
   "weekly": [
     {
       "rangeText": "9月27日-10月3日 平均",
-      "dailyAvg": 3.05,
+      "dailyAvg": 3.12,
       "compareBase": 25.11,
       "hasBaseline": true,
       "day": [
         0.53,
         1.95,
         0.65,
-        1.59,
-        0,
+        2.9,
+        0.13,
         0,
         0
       ],
@@ -148,8 +148,8 @@
         3.42,
         3.38,
         0.9,
-        2.68,
-        0.17,
+        1.5,
+        0.25,
         0,
         0
       ],
@@ -200,13 +200,13 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 1.36,
-      "compareBase": 45.24,
+      "dailyAvg": 1.14,
+      "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
         {
           "day": [
-            0,
+            0.13,
             0,
             0,
             0,
@@ -215,7 +215,7 @@
             0
           ],
           "night": [
-            0.17,
+            0.25,
             0,
             0,
             0,
@@ -487,7 +487,7 @@
             0.53,
             1.95,
             0.65,
-            1.59,
+            2.9,
             0,
             0,
             0
@@ -496,7 +496,7 @@
             3.42,
             3.38,
             0.9,
-            2.68,
+            1.5,
             0,
             0,
             0
