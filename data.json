@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-05 06:27:48",
-  "currentBalance": 63.98,
+  "updateTime": "2026-10-05 09:11:47",
+  "currentBalance": 63.78,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "10月5日 今天",
-      "total": 0.46,
-      "compareBase": 5.39,
+      "total": 0.66,
+      "compareBase": 6.55,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -21,9 +21,9 @@
           0,
           0,
           0.02,
-          0,
-          0,
-          0,
+          0.07,
+          0.02,
+          0.11,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "10月4日 昨天",
-      "total": 5.39,
+      "total": 6.55,
       "compareBase": 2.06,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.35,
           0.21,
           0.1,
-          0
+          1.18
         ]
       }
     }
@@ -132,12 +132,12 @@
   "weekly": [
     {
       "rangeText": "10月4日-10日 平均",
-      "dailyAvg": 2.93,
+      "dailyAvg": 3.61,
       "compareBase": 23.84,
       "hasBaseline": true,
       "day": [
-        2.69,
-        0.02,
+        2.71,
+        0.22,
         0,
         0,
         0,
@@ -145,7 +145,7 @@
         0
       ],
       "night": [
-        2.7,
+        3.84,
         0.44,
         0,
         0,
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 3.43,
+      "dailyAvg": 3.61,
       "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
@@ -209,8 +209,8 @@
             0.72,
             1.3,
             1.06,
-            2.69,
-            0.02,
+            2.71,
+            0.22,
             0,
             0
           ],
@@ -218,7 +218,7 @@
             1.57,
             2.95,
             1,
-            2.7,
+            3.84,
             0.44,
             0,
             0
@@ -236,8 +236,8 @@
         },
         {
           "day": [
-            2.69,
-            0.02,
+            2.71,
+            0.22,
             0,
             0,
             0,
@@ -245,7 +245,7 @@
             0
           ],
           "night": [
-            2.7,
+            3.84,
             0.44,
             0,
             0,
