@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-10 05:50:45",
-  "currentBalance": 44.01,
+  "updateTime": "2026-10-10 09:52:46",
+  "currentBalance": 43.81,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "10月10日 今天",
-      "total": 2.25,
-      "compareBase": 2.66,
+      "total": 2.45,
+      "compareBase": 2.74,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,10 +20,10 @@
           0,
           0,
           0,
-          0,
-          0,
-          0,
-          0,
+          0.02,
+          0.08,
+          0.02,
+          0.08,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "10月9日 昨天",
-      "total": 2.66,
+      "total": 2.74,
       "compareBase": 4.55,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.3,
           0.06,
           0.12,
-          0
+          0.08
         ]
       }
     }
@@ -132,7 +132,7 @@
   "weekly": [
     {
       "rangeText": "10月4日-10日 平均",
-      "dailyAvg": 3.85,
+      "dailyAvg": 3.89,
       "compareBase": 23.84,
       "hasBaseline": true,
       "day": [
@@ -141,8 +141,8 @@
         0.83,
         0.61,
         0.81,
-        0.69,
-        0
+        0.68,
+        0.2
       ],
       "night": [
         3.84,
@@ -150,7 +150,7 @@
         4.27,
         3.16,
         3.74,
-        1.97,
+        2.06,
         2.25
       ],
       "dates": [
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 3.87,
+      "dailyAvg": 3.82,
       "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
@@ -241,8 +241,8 @@
             0.83,
             0.61,
             0.81,
-            0.69,
-            0
+            0.68,
+            0.2
           ],
           "night": [
             3.84,
@@ -250,7 +250,7 @@
             4.27,
             3.16,
             3.74,
-            1.97,
+            2.06,
             2.25
           ],
           "dates": [
