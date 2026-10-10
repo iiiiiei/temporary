@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-11 04:15:53",
-  "currentBalance": 40.43,
+  "updateTime": "2026-10-11 07:45:45",
+  "currentBalance": 40.19,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "10月11日 今天",
-      "total": 0.74,
-      "compareBase": 4.82,
+      "total": 0.98,
+      "compareBase": 5.09,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,8 +20,8 @@
           0,
           0,
           0,
-          0,
-          0,
+          0.08,
+          0.08,
           0,
           0,
           0,
@@ -45,7 +45,7 @@
           0.39,
           0.09,
           0.06,
-          0,
+          0.08,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "10月10日 昨天",
-      "total": 4.82,
+      "total": 5.09,
       "compareBase": 2.74,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.12,
           0.08,
           0.4,
-          0
+          0.27
         ]
       }
     }
@@ -132,11 +132,11 @@
   "weekly": [
     {
       "rangeText": "10月11日-17日 平均",
-      "dailyAvg": 0.74,
-      "compareBase": 29.57,
+      "dailyAvg": 0.98,
+      "compareBase": 29.84,
       "hasBaseline": true,
       "day": [
-        0,
+        0.16,
         0,
         0,
         0,
@@ -145,7 +145,7 @@
         0
       ],
       "night": [
-        0.74,
+        0.82,
         0,
         0,
         0,
@@ -165,7 +165,7 @@
     },
     {
       "rangeText": "10月4日-10日 平均",
-      "dailyAvg": 4.22,
+      "dailyAvg": 4.26,
       "compareBase": 23.84,
       "hasBaseline": true,
       "day": [
@@ -175,7 +175,7 @@
         0.61,
         0.81,
         0.68,
-        0.66
+        0.74
       ],
       "night": [
         3.84,
@@ -184,7 +184,7 @@
         3.16,
         3.74,
         2.06,
-        4.16
+        4.35
       ],
       "dates": [
         "2026-10-04",
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 3.84,
+      "dailyAvg": 3.83,
       "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
@@ -242,7 +242,7 @@
             0.61,
             0.81,
             0.68,
-            0.66
+            0.74
           ],
           "night": [
             3.84,
@@ -251,7 +251,7 @@
             3.16,
             3.74,
             2.06,
-            4.16
+            4.35
           ],
           "dates": [
             "2026-10-04",
@@ -266,7 +266,7 @@
         },
         {
           "day": [
-            0,
+            0.16,
             0,
             0,
             0,
@@ -275,7 +275,7 @@
             0
           ],
           "night": [
-            0.74,
+            0.82,
             0,
             0,
             0,
