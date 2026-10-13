@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-14 01:45:25",
-  "currentBalance": 29.89,
+  "updateTime": "2026-10-14 07:01:58",
+  "currentBalance": 28.88,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "10月14日 今天",
-      "total": 0.24,
-      "compareBase": 2.52,
+      "total": 1.25,
+      "compareBase": 2.93,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,8 +20,8 @@
           0,
           0,
           0,
-          0,
-          0,
+          0.05,
+          0.05,
           0,
           0,
           0,
@@ -42,10 +42,10 @@
         ],
         "night": [
           0.24,
-          0,
-          0,
-          0,
-          0,
+          0.77,
+          0.05,
+          0.04,
+          0.05,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "10月13日 昨天",
-      "total": 2.52,
+      "total": 2.93,
       "compareBase": 4.59,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.5,
           0.11,
           0.05,
-          0
+          0.42
         ]
       }
     }
@@ -132,14 +132,14 @@
   "weekly": [
     {
       "rangeText": "10月11日-17日 平均",
-      "dailyAvg": 2.72,
+      "dailyAvg": 3.07,
       "compareBase": 29.84,
       "hasBaseline": true,
       "day": [
         1.38,
         1.09,
-        1.4,
-        0,
+        1.41,
+        0.1,
         0,
         0,
         0
@@ -147,8 +147,8 @@
       "night": [
         2.13,
         3.5,
-        1.12,
-        0.24,
+        1.52,
+        1.15,
         0,
         0,
         0
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 3.79,
+      "dailyAvg": 3.82,
       "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
@@ -268,8 +268,8 @@
           "day": [
             1.38,
             1.09,
-            1.4,
-            0,
+            1.41,
+            0.1,
             0,
             0,
             0
@@ -277,8 +277,8 @@
           "night": [
             2.13,
             3.5,
-            1.12,
-            0.24,
+            1.52,
+            1.15,
             0,
             0,
             0
