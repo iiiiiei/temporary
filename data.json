@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-16 06:37:07",
-  "currentBalance": 21.52,
+  "updateTime": "2026-10-16 09:35:44",
+  "currentBalance": 20.81,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "10月16日 今天",
-      "total": 1.25,
-      "compareBase": 2.36,
+      "total": 1.96,
+      "compareBase": 2.49,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -21,9 +21,9 @@
           0,
           0,
           0.08,
-          0,
-          0,
-          0,
+          0.02,
+          0.09,
+          0.6,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "10月15日 昨天",
-      "total": 2.36,
+      "total": 2.49,
       "compareBase": 4.88,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.1,
           0.08,
           0.07,
-          0
+          0.1
         ]
       }
     }
@@ -132,7 +132,7 @@
   "weekly": [
     {
       "rangeText": "10月11日-17日 平均",
-      "dailyAvg": 3.25,
+      "dailyAvg": 3.39,
       "compareBase": 29.84,
       "hasBaseline": true,
       "day": [
@@ -140,8 +140,8 @@
         1.09,
         1.41,
         1.27,
-        0.99,
-        0.08,
+        0.97,
+        0.79,
         0
       ],
       "night": [
@@ -149,7 +149,7 @@
         3.5,
         1.52,
         3.61,
-        1.37,
+        1.52,
         1.17,
         0
       ],
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 3.81,
+      "dailyAvg": 3.82,
       "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
@@ -270,8 +270,8 @@
             1.09,
             1.41,
             1.27,
-            0.99,
-            0.08,
+            0.97,
+            0.79,
             0
           ],
           "night": [
@@ -279,7 +279,7 @@
             3.5,
             1.52,
             3.61,
-            1.37,
+            1.52,
             1.17,
             0
           ],
