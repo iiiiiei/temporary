@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-17 05:35:45",
-  "currentBalance": 16.71,
+  "updateTime": "2026-10-17 08:43:00",
+  "currentBalance": 16.53,
   "latestRecharge": "2026年09月19日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "10月17日 今天",
-      "total": 0.26,
-      "compareBase": 5.54,
+      "total": 0.44,
+      "compareBase": 5.8,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,9 +20,9 @@
           0,
           0,
           0,
-          0,
-          0,
-          0,
+          0.08,
+          0.02,
+          0.08,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "10月16日 昨天",
-      "total": 5.54,
+      "total": 5.8,
       "compareBase": 2.49,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.23,
           0.52,
           1.4,
-          0
+          0.26
         ]
       }
     }
@@ -132,7 +132,7 @@
   "weekly": [
     {
       "rangeText": "10月11日-17日 平均",
-      "dailyAvg": 3.46,
+      "dailyAvg": 3.52,
       "compareBase": 29.84,
       "hasBaseline": true,
       "day": [
@@ -141,8 +141,8 @@
         1.41,
         1.27,
         0.97,
-        1.22,
-        0
+        1.3,
+        0.18
       ],
       "night": [
         2.13,
@@ -150,7 +150,7 @@
         1.52,
         3.61,
         1.52,
-        4.32,
+        4.5,
         0.26
       ],
       "dates": [
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 3.87,
+      "dailyAvg": 3.86,
       "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
@@ -271,8 +271,8 @@
             1.41,
             1.27,
             0.97,
-            1.22,
-            0
+            1.3,
+            0.18
           ],
           "night": [
             2.13,
@@ -280,7 +280,7 @@
             1.52,
             3.61,
             1.52,
-            4.32,
+            4.5,
             0.26
           ],
           "dates": [
