@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-25 06:41:05",
-  "currentBalance": 81.1,
+  "updateTime": "2026-10-25 09:29:25",
+  "currentBalance": 81.01,
   "latestRecharge": "2026年10月18日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "10月25日 今天",
-      "total": 1.22,
-      "compareBase": 5.21,
+      "total": 1.31,
+      "compareBase": 5.23,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -21,9 +21,9 @@
           0,
           0,
           0.07,
-          0,
-          0,
-          0,
+          0.02,
+          0.06,
+          0.01,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "10月24日 昨天",
-      "total": 5.21,
+      "total": 5.23,
       "compareBase": 3.51,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           1.35,
           0.02,
           0.06,
-          0
+          0.02
         ]
       }
     }
@@ -132,11 +132,11 @@
   "weekly": [
     {
       "rangeText": "10月25日-31日 平均",
-      "dailyAvg": 1.22,
-      "compareBase": 32.46,
+      "dailyAvg": 1.31,
+      "compareBase": 32.48,
       "hasBaseline": true,
       "day": [
-        0.07,
+        0.16,
         0,
         0,
         0,
@@ -175,7 +175,7 @@
         0.93,
         1.08,
         1.32,
-        2.5
+        2.69
       ],
       "night": [
         4.54,
@@ -184,7 +184,7 @@
         2.92,
         4.21,
         2.19,
-        2.71
+        2.54
       ],
       "dates": [
         "2026-10-18",
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 4.07,
+      "dailyAvg": 4.05,
       "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
@@ -302,7 +302,7 @@
             0.93,
             1.08,
             1.32,
-            2.5
+            2.69
           ],
           "night": [
             4.54,
@@ -311,7 +311,7 @@
             2.92,
             4.21,
             2.19,
-            2.71
+            2.54
           ],
           "dates": [
             "2026-10-18",
@@ -326,7 +326,7 @@
         },
         {
           "day": [
-            0.07,
+            0.16,
             0,
             0,
             0,
