@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-28 07:55:30",
-  "currentBalance": 67.37,
+  "updateTime": "2026-10-28 14:09:16",
+  "currentBalance": 66.53,
   "latestRecharge": "2026年10月18日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,7 +10,7 @@
   "daily": [
     {
       "dateText": "10月28日 今天",
-      "total": 0.27,
+      "total": 1.11,
       "compareBase": 3.04,
       "hasBaseline": true,
       "profile": {
@@ -22,13 +22,13 @@
           0,
           0.07,
           0.01,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
+          0.04,
+          0.61,
+          0.02,
+          0.06,
+          0.02,
+          0.06,
+          0.03,
           0,
           0,
           0,
@@ -132,14 +132,14 @@
   "weekly": [
     {
       "rangeText": "10月25日-31日 平均",
-      "dailyAvg": 3.73,
+      "dailyAvg": 3.94,
       "compareBase": 32.48,
       "hasBaseline": true,
       "day": [
         1.52,
         1.31,
         1.34,
-        0.08,
+        0.92,
         0,
         0,
         0
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 4.11,
+      "dailyAvg": 4.1,
       "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
@@ -329,7 +329,7 @@
             1.52,
             1.31,
             1.34,
-            0.08,
+            0.92,
             0,
             0,
             0
