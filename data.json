@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-10-30 05:56:58",
-  "currentBalance": 58.78,
+  "updateTime": "2026-10-30 10:06:21",
+  "currentBalance": 58.21,
   "latestRecharge": "2026年10月18日 充值 100.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "10月30日 今天",
-      "total": 0.8,
-      "compareBase": 2.15,
+      "total": 1.37,
+      "compareBase": 3.16,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,11 +20,11 @@
           0,
           0,
           0,
-          0,
-          0,
-          0,
-          0,
-          0,
+          0.01,
+          0.07,
+          0.02,
+          0.45,
+          0.02,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "10月29日 昨天",
-      "total": 2.15,
+      "total": 3.16,
       "compareBase": 4.9,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.13,
           0.06,
           0.19,
-          0
+          1.02
         ]
       }
     }
@@ -132,7 +132,7 @@
   "weekly": [
     {
       "rangeText": "10月25日-31日 平均",
-      "dailyAvg": 3.75,
+      "dailyAvg": 4.01,
       "compareBase": 32.48,
       "hasBaseline": true,
       "day": [
@@ -140,8 +140,8 @@
         1.31,
         1.34,
         1.03,
-        1.39,
-        0,
+        1.38,
+        0.57,
         0
       ],
       "night": [
@@ -149,7 +149,7 @@
         5.34,
         1.69,
         3.87,
-        0.76,
+        1.78,
         0.8,
         0
       ],
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "10月 平均",
-      "dailyAvg": 4.11,
+      "dailyAvg": 4.13,
       "compareBase": 45.38,
       "hasBaseline": true,
       "weeks": [
@@ -330,8 +330,8 @@
             1.31,
             1.34,
             1.03,
-            1.39,
-            0,
+            1.38,
+            0.57,
             0
           ],
           "night": [
@@ -339,7 +339,7 @@
             5.34,
             1.69,
             3.87,
-            0.76,
+            1.78,
             0.8,
             0
           ],
