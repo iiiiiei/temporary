@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-11-15 03:24:23",
-  "currentBalance": 26.67,
+  "updateTime": "2026-11-15 07:17:36",
+  "currentBalance": 26.16,
   "latestRecharge": "2026年11月09日 充值 50.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "11月15日 今天",
-      "total": 0.48,
-      "compareBase": 5.19,
+      "total": 0.99,
+      "compareBase": 7.29,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -20,8 +20,8 @@
           0,
           0,
           0,
-          0,
-          0,
+          0.02,
+          0.14,
           0,
           0,
           0,
@@ -44,8 +44,8 @@
           0.42,
           0.05,
           0.01,
-          0,
-          0,
+          0.34,
+          0.01,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "11月14日 昨天",
-      "total": 5.19,
+      "total": 7.29,
       "compareBase": 3.51,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.21,
           0.26,
           0.8,
-          0
+          2.12
         ]
       }
     }
@@ -132,11 +132,11 @@
   "weekly": [
     {
       "rangeText": "11月15日-21日 平均",
-      "dailyAvg": 0.48,
-      "compareBase": 33.01,
+      "dailyAvg": 0.99,
+      "compareBase": 35.11,
       "hasBaseline": true,
       "day": [
-        0,
+        0.16,
         0,
         0,
         0,
@@ -145,7 +145,7 @@
         0
       ],
       "night": [
-        0.48,
+        0.83,
         0,
         0,
         0,
@@ -165,7 +165,7 @@
     },
     {
       "rangeText": "11月8日-14日 平均",
-      "dailyAvg": 4.72,
+      "dailyAvg": 5.02,
       "compareBase": 38.35,
       "hasBaseline": true,
       "day": [
@@ -175,7 +175,7 @@
         1.5,
         2.94,
         1.91,
-        2.02
+        2.2
       ],
       "night": [
         0.78,
@@ -184,7 +184,7 @@
         2.27,
         3.64,
         1.6,
-        3.17
+        5.1
       ],
       "dates": [
         "2026-11-08",
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "11月 平均",
-      "dailyAvg": 5.1,
+      "dailyAvg": 5.21,
       "compareBase": 128.98,
       "hasBaseline": true,
       "weeks": [
@@ -242,7 +242,7 @@
             1.5,
             2.94,
             1.91,
-            2.02
+            2.2
           ],
           "night": [
             0.78,
@@ -251,7 +251,7 @@
             2.27,
             3.64,
             1.6,
-            3.17
+            5.1
           ],
           "dates": [
             "2026-11-08",
@@ -266,7 +266,7 @@
         },
         {
           "day": [
-            0,
+            0.16,
             0,
             0,
             0,
@@ -275,7 +275,7 @@
             0
           ],
           "night": [
-            0.48,
+            0.83,
             0,
             0,
             0,
