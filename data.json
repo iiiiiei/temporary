@@ -1,7 +1,7 @@
 {
   "success": true,
-  "updateTime": "2026-11-23 06:42:57",
-  "currentBalance": 38.87,
+  "updateTime": "2026-11-23 11:55:39",
+  "currentBalance": 38.18,
   "latestRecharge": "2026年11月19日 充值 50.00元",
   "dataRange": {
     "startDate": "2026-09-18",
@@ -10,8 +10,8 @@
   "daily": [
     {
       "dateText": "11月23日 今天",
-      "total": 0.48,
-      "compareBase": 8.34,
+      "total": 1.17,
+      "compareBase": 8.65,
       "hasBaseline": true,
       "profile": {
         "day": [
@@ -21,11 +21,11 @@
           0,
           0,
           0.38,
-          0,
-          0,
-          0,
-          0,
-          0,
+          0.02,
+          0.02,
+          0.51,
+          0.06,
+          0.08,
           0,
           0,
           0,
@@ -70,7 +70,7 @@
     },
     {
       "dateText": "11月22日 昨天",
-      "total": 8.34,
+      "total": 8.65,
       "compareBase": 5.23,
       "hasBaseline": true,
       "profile": {
@@ -124,7 +124,7 @@
           0.38,
           0.39,
           1.19,
-          0
+          0.31
         ]
       }
     }
@@ -132,12 +132,12 @@
   "weekly": [
     {
       "rangeText": "11月22日-28日 平均",
-      "dailyAvg": 4.41,
+      "dailyAvg": 4.91,
       "compareBase": 29.17,
       "hasBaseline": true,
       "day": [
-        4.97,
-        0.38,
+        5.39,
+        1.07,
         0,
         0,
         0,
@@ -145,7 +145,7 @@
         0
       ],
       "night": [
-        3.37,
+        3.26,
         0.1,
         0,
         0,
@@ -200,7 +200,7 @@
   "monthly": [
     {
       "name": "11月 平均",
-      "dailyAvg": 5.02,
+      "dailyAvg": 5.01,
       "compareBase": 128.98,
       "hasBaseline": true,
       "weeks": [
@@ -296,8 +296,8 @@
         },
         {
           "day": [
-            4.97,
-            0.38,
+            5.39,
+            1.07,
             0,
             0,
             0,
@@ -305,7 +305,7 @@
             0
           ],
           "night": [
-            3.37,
+            3.26,
             0.1,
             0,
             0,
